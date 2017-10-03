@@ -6,7 +6,7 @@ public class ClienteEmissor{
     int porta;
     String ip;
     Socket cliente;
-//cores
+//cores\\
     final String corReset="\u001B[0m";
     final String corVermelha="\u001B[31m";
     final String corAzul="\u001B[34m";
