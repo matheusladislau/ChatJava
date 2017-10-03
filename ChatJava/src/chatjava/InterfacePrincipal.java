@@ -15,6 +15,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }
 //
     public void enviarparaTodos(String mensagem)throws IOException{
+        
         for(int i=0; i<arrayUsuario.size(); i++){
             PrintStream saida=new PrintStream(arrayUsuario.get(i).cliente.getOutputStream());
             saida.print(mensagem);
@@ -52,7 +53,14 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         }
     }
     public void conectarServidor(){
-        
+        if(clienteIniciado){
+            JOptionPane.showMessageDialog(null,"Já conectado como cliente.");
+        }else{
+            String ip=cmp_recebeIPServidor.getText();
+            String nome=cmp_recebeNome.getText();
+            new ClienteNegociador(ip,nome).start();
+            clienteIniciado=true;
+        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -69,7 +77,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         txt_ipServidor = new javax.swing.JLabel();
         cmp_recebeIPServidor = new javax.swing.JTextField();
         btn_conectar = new javax.swing.JButton();
-        cmp_recebeIPServidor1 = new javax.swing.JTextField();
+        cmp_recebeNome = new javax.swing.JTextField();
         txt_nickname = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -136,14 +144,14 @@ public class InterfacePrincipal extends javax.swing.JFrame {
             }
         });
 
-        cmp_recebeIPServidor1.addActionListener(new java.awt.event.ActionListener() {
+        cmp_recebeNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmp_recebeIPServidor1ActionPerformed(evt);
+                cmp_recebeNomeActionPerformed(evt);
             }
         });
-        cmp_recebeIPServidor1.addKeyListener(new java.awt.event.KeyAdapter() {
+        cmp_recebeNome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                cmp_recebeIPServidor1KeyTyped(evt);
+                cmp_recebeNomeKeyTyped(evt);
             }
         });
 
@@ -165,7 +173,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
                             .addComponent(cmp_recebeIPServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmp_recebeIPServidor1)
+                            .addComponent(cmp_recebeNome)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txt_nickname, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
@@ -186,7 +194,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cmp_recebeIPServidor1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmp_recebeNome, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btn_conectar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -219,6 +227,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
 
     private void btn_iniciarServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_iniciarServidorActionPerformed
         iniciarServidor();
+        cmp_recebeNome.setText("Servidor");
+        btn_conectar.setText("              Conectar             ");
     }//GEN-LAST:event_btn_iniciarServidorActionPerformed
 
     private void btn_encerrarConexoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_encerrarConexoesActionPerformed
@@ -237,7 +247,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private void btn_conectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_conectarActionPerformed
         conectarServidor();
         cmp_recebeIPServidor.setEditable(false);
-        cmp_recebeIPServidor1.setEditable(false);
+        cmp_recebeNome.setEditable(false);
     }//GEN-LAST:event_btn_conectarActionPerformed
 
     private void cmp_recebeIPServidorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmp_recebeIPServidorMouseClicked
@@ -245,13 +255,13 @@ public class InterfacePrincipal extends javax.swing.JFrame {
             cmp_recebeIPServidor.setText("");
     }//GEN-LAST:event_cmp_recebeIPServidorMouseClicked
 
-    private void cmp_recebeIPServidor1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmp_recebeIPServidor1KeyTyped
+    private void cmp_recebeNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmp_recebeNomeKeyTyped
         btn_conectar.setText("              Conectar             ");
-    }//GEN-LAST:event_cmp_recebeIPServidor1KeyTyped
+    }//GEN-LAST:event_cmp_recebeNomeKeyTyped
 
-    private void cmp_recebeIPServidor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmp_recebeIPServidor1ActionPerformed
+    private void cmp_recebeNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmp_recebeNomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cmp_recebeIPServidor1ActionPerformed
+    }//GEN-LAST:event_cmp_recebeNomeActionPerformed
     public static void main(String args[]){
         try{
             for(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -282,8 +292,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btn_iniciarServidor;
     private javax.swing.JButton btn_mostrarConexões;
     private javax.swing.JTextField cmp_recebeIPServidor;
-    private javax.swing.JTextField cmp_recebeIPServidor1;
     private javax.swing.JTextField cmp_recebeMensagem;
+    private javax.swing.JTextField cmp_recebeNome;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea txt_chat;
     private javax.swing.JLabel txt_ipServidor;

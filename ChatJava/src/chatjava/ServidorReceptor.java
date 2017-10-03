@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
-public class ServidorReceptor extends Thread{
+public class ServidorReceptor extends Thread{ //rever metodo enviar para todos
     int porta;
     ControleInterface controle;
     Usuario usuario;
@@ -17,10 +17,10 @@ public class ServidorReceptor extends Thread{
 //CONSTR
 //CONSTR  
     public ServidorReceptor(ControleInterface controle,ArrayList<Usuario> arrayUsuario,int porta,Usuario usuario){
-        this.arrayUsuario=arrayUsuario;
         this.controle=controle;
-        this.usuario=usuario;
+        this.arrayUsuario=arrayUsuario;
         this.porta=porta;
+        this.usuario=usuario;
     }
 //
     @Override
@@ -44,7 +44,6 @@ public class ServidorReceptor extends Thread{
                     //enviarparaTodos(mensagem);
                 }
              }
-            
         }catch(IOException e) {
             mensagemErro("Erro ao iniciar servidor receptor: "+e);
         }

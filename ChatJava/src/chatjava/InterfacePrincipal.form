@@ -38,7 +38,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cmp_recebeIPServidor1" max="32767" attributes="0"/>
+                          <Component id="cmp_recebeNome" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="txt_nickname" min="-2" pref="127" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -67,7 +67,7 @@
               <EmptySpace pref="18" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="cmp_recebeIPServidor1" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                      <Component id="cmp_recebeNome" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="btn_conectar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -204,10 +204,10 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_conectarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="cmp_recebeIPServidor1">
+    <Component class="javax.swing.JTextField" name="cmp_recebeNome">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmp_recebeIPServidor1ActionPerformed"/>
-        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cmp_recebeIPServidor1KeyTyped"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmp_recebeNomeActionPerformed"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cmp_recebeNomeKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="txt_nickname">

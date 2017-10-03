@@ -11,6 +11,7 @@ public class Usuario{
 //
     public Usuario(int porta,String ip,String nickName){
         this.portaEnvia=porta;
+        this.portaRecebe=porta+1;
         this.ip=ip;
         this.nickName=nickName;
     }
@@ -18,6 +19,7 @@ public class Usuario{
         this.usuario=usuario;
         this.ip=this.usuario.getIp();
         this.portaEnvia=this.usuario.getPorta();
+        this.portaEnvia=this.portaRecebe+1;
         this.nickName=this.usuario.getNickName();
     }
 //

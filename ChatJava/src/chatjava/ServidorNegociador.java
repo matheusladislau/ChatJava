@@ -46,7 +46,7 @@ public class ServidorNegociador extends Thread{
             criarUsuario(portaLiberada,ipUsuario,nome);
             Usuario novoUsuario=new Usuario(portaLiberada,ipUsuario,nome);
             
-            new ServidorReceptor(controle,arrayUsuario,porta,novoUsuario).start();
+            new ServidorReceptor(controle,arrayUsuario,portaLiberada,novoUsuario).start();
             
             //DEU CERTO: enviarparaTodos(nome+"se conectou");
             controle.atualizarChat(("["+new Tempo().getHoraMinutoAtual()+"] "+nome+" se conectou ao chat"));
@@ -60,12 +60,16 @@ public class ServidorNegociador extends Thread{
             mensagemErro("Erro ao criar ServidorNegociador: "+e);
         }
     }
+    /*
+    
     public void enviarparaTodos(String mensagem)throws IOException{
         for(int i=0; i<arrayUsuario.size(); i++){
             PrintStream saida=new PrintStream(arrayUsuario.get(i).cliente.getOutputStream());
             saida.print(mensagem);
         }
     }
+    
+    */
     public void criarUsuario(int porta,String ip,String nome){
         this.arrayUsuario.add(new Usuario(porta,ip,nome));
     }
