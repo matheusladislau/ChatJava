@@ -8,7 +8,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     boolean servidorIniciado=false;
     ArrayList<Usuario> arrayUsuario=new ArrayList<Usuario>();
     ServidorNegociador servidor;
-    ControleInterface controle;
 //
     public InterfacePrincipal(){
         initComponents();
@@ -44,8 +43,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         if(servidorIniciado){
             JOptionPane.showMessageDialog(null,"Servidor já iniciado.");
         }else{
-            controle=new ControleInterface(txt_chat,cmp_recebeMensagem);
-            servidor=new ServidorNegociador(controle,arrayUsuario);
+            servidor=new ServidorNegociador(new ControleInterface(txt_chat,cmp_recebeMensagem),arrayUsuario);
             servidor.start();
             this.servidorIniciado=true;
             new ControleInterface(txt_chat,cmp_recebeMensagem).atualizarChat(
@@ -58,7 +56,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         }else{
             String ip=cmp_recebeIPServidor.getText();
             String nome=cmp_recebeNome.getText();
-            new ClienteNegociador(ip,nome).start();
+            new ClienteNegociador(new ControleInterface(txt_chat,cmp_recebeMensagem),ip,nome).start();
             clienteIniciado=true;
         }
     }

@@ -28,7 +28,7 @@ public class ServidorNegociador extends Thread{
     public synchronized void conectar(){
         try{
             ServerSocket servidor=new ServerSocket(porta);
-            System.out.println("Porta "+porta+" aberta!");
+            System.out.println("Servidor Negociador: Porta "+porta+" aberta!");
             Socket cliente=servidor.accept();
             System.out.println("Servidor Negociador: Recebendo conexão com o cliente "+   
                 cliente.getInetAddress().getHostAddress()
@@ -45,7 +45,7 @@ public class ServidorNegociador extends Thread{
                 nome="anônimo";
             criarUsuario(portaLiberada,ipUsuario,nome);
             Usuario novoUsuario=new Usuario(portaLiberada,ipUsuario,nome);
-            
+        //CRIA 2 NOVAS PORTAS, mas não por ser servidor(?):
             new ServidorReceptor(controle,arrayUsuario,portaLiberada,novoUsuario).start();
             
             //DEU CERTO: enviarparaTodos(nome+"se conectou");

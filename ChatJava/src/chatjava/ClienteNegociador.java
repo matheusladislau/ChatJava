@@ -7,12 +7,14 @@ public class ClienteNegociador extends Thread{
     int porta=2000;
     String ip;
     String nome;
+    ControleInterface controle;
 //cores
     final String corReset="\u001B[0m";
     final String corVermelha="\u001B[31m";
     final String corAzul="\u001B[34m";
 //
-    public ClienteNegociador(String ip,String nome){
+    public ClienteNegociador(ControleInterface controle,String ip,String nome){
+        this.controle=controle;
         this.ip=ip;
         this.nome=nome;
     }
@@ -28,6 +30,10 @@ public class ClienteNegociador extends Thread{
 
             saida.println(nome);
             int portaLiberada=(Integer.parseInt(entrada.nextLine()));
+        //CRIA DUAS PORTAS    
+            //new ClienteEmissor
+            new ClienteEmissor(this.ip,portaLiberada);
+            new ClienteReceptor(this.controle,portaLiberada+1).start();
             
             saida.close();
             

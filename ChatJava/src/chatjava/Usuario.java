@@ -42,5 +42,7 @@ public class Usuario{
     public void setNickName(String nickName){
         this.nickName=nickName;
     }
-    
+    public void setCliente(Socket cliente) {
+        this.cliente = cliente;
+    }
 }
