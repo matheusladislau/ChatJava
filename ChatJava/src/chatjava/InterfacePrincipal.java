@@ -8,6 +8,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     boolean servidorIniciado=false;
     ArrayList<Usuario> arrayUsuario=new ArrayList<Usuario>();
     ServidorNegociador servidor;
+    
+    ClienteEmissor clienteE=new ClienteEmissor();
 //
     public InterfacePrincipal(){
         initComponents();
@@ -56,7 +58,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         }else{
             String ip=cmp_recebeIPServidor.getText();
             String nome=cmp_recebeNome.getText();
-            new ClienteNegociador(new ControleInterface(txt_chat,cmp_recebeMensagem),ip,nome).start();
+            new ClienteNegociador(clienteE,new ControleInterface(txt_chat,cmp_recebeMensagem),ip,nome).start();
             clienteIniciado=true;
         }
     }
@@ -240,6 +242,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private void btn_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarActionPerformed
         String mensagem=cmp_recebeMensagem.getText();
         cmp_recebeMensagem.setText("");
+        clienteE.teste();
+        clienteE.enviarMensagem(mensagem);
     }//GEN-LAST:event_btn_enviarActionPerformed
 
     private void btn_conectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_conectarActionPerformed

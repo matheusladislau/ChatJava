@@ -11,7 +11,16 @@ public class ClienteEmissor{
     final String corVermelha="\u001B[31m";
     final String corAzul="\u001B[34m";
 //CONSTR
+    public ClienteEmissor(){
+        
+    }
     public ClienteEmissor(String ip,int porta) throws IOException{
+        this.ip=ip;
+        this.porta=porta;
+        this.cliente=new Socket(this.ip,this.porta);
+        System.out.println("Cliente emissor: conectado ao servidor pela porta "+this.porta);
+    }
+    public void configurar(String ip,int porta) throws IOException{
         this.ip=ip;
         this.porta=porta;
         this.cliente=new Socket(this.ip,this.porta);
@@ -24,5 +33,9 @@ public class ClienteEmissor{
         }catch(IOException e){
             System.out.println("Erro ao enviar mensagem por cliente emissor: "+e);
         }
+    }
+    
+    public void teste(){
+        System.out.println(this.porta+"  "+this.ip);
     }
 }
