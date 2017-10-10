@@ -27,7 +27,6 @@ public class ClienteNegociador extends Thread{
         try{
             Socket cliente=new Socket(this.ip,this.porta);
             System.out.println("Cliente negociador: conectado ao servidor!");
-
             PrintStream saida=new PrintStream(cliente.getOutputStream());
             Scanner entrada=new Scanner(cliente.getInputStream());
 
@@ -39,7 +38,7 @@ public class ClienteNegociador extends Thread{
             new ClienteReceptor(this.controle,portaLiberada+1).start();
             
             saida.close();
-            
+            cliente.close();
         }catch(IOException e){
             mensagemErro("Erro ao criar socket de cliente negociador"+e);
         }

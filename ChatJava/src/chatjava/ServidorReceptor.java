@@ -35,12 +35,16 @@ public class ServidorReceptor extends Thread{ //rever metodo enviar para todos
             Scanner entrada=new Scanner(cliente.getInputStream());
              
              while(true){
-                  while(entrada.hasNextLine()){
+                //enquanto houver mensagens
+                    while(entrada.hasNextLine()){
+                    //remontar mensagem
                     String mensagem="";
-                    mensagem+=usuario.getNickName();
+                    mensagem+=usuario.getNome();
                     mensagem+=" ["+new Tempo().getHoraMinutoAtual()+"]:  "+entrada.nextLine();
+                    //atualizar interface grafica
                     controle.atualizarChat(mensagem);
-                    //enviarparaTodos(mensagem);
+                    //envia paratodos outros usuários
+                    enviarparaTodos(arrayUsuario,mensagem); 
                 }
              }
         }catch(IOException e) {
@@ -55,7 +59,19 @@ public class ServidorReceptor extends Thread{ //rever metodo enviar para todos
         }
     }
 */
-    
+    public void enviarparaTodos(ArrayList<Usuario> arrayUsuario,String mensagem)throws IOException{
+        if(arrayUsuario.size()>0){
+        /*for(int i=0; i<arrayUsuario.size(); i++){    
+            PrintStream saida=new PrintStream(arrayUsuario.get(1).getCliente().getOutputStream());
+            saida.print(mensagem);
+        }
+        */
+            for(int i=0; i<arrayUsuario.size(); i++){
+                System.out.println("nome: "+arrayUsuario.get(i).getNome());
+                arrayUsuario.get(i).clieEmiss.enviarMensagem(mensagem);
+            }
+        }
+    }
     public String mensagemErro(String erro){
         return(corVermelha+(erro)+corReset);
     } 

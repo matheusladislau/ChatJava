@@ -34,8 +34,13 @@ public class ClienteEmissor{
             System.out.println("Erro ao enviar mensagem por cliente emissor: "+e);
         }
     }
-    
-    public void teste(){
-        System.out.println(this.porta+"  "+this.ip);
+
+    public Socket getCliente() {
+        return cliente;
     }
+
+    public void setCliente(Socket cliente) {
+        this.cliente = cliente;
+    }
+    
 }

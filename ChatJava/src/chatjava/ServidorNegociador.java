@@ -45,13 +45,21 @@ public class ServidorNegociador extends Thread{
                 nome="anônimo";
             criarUsuario(portaLiberada,ipUsuario,nome);
             Usuario novoUsuario=new Usuario(portaLiberada,ipUsuario,nome);
-        //CRIA 2 NOVAS PORTAS, mas não por ser servidor(?):
-            new ServidorReceptor(controle,arrayUsuario,portaLiberada,novoUsuario).start();
-            
+        
             //DEU CERTO: enviarparaTodos(nome+"se conectou");
             controle.atualizarChat(("["+new Tempo().getHoraMinutoAtual()+"] "+nome+" se conectou ao chat"));
             
+            
             saida.println(portaLiberada); //envia a portaEnvia ao usuário
+            
+            
+        //CRIA 2 NOVAS PORTAS, mas não por ser servidor(?):
+            new ServidorReceptor(controle,arrayUsuario,portaLiberada,novoUsuario).start();
+            ClienteEmissor novoCE=new ClienteEmissor();
+            novoCE.configurar(ipUsuario,portaLiberada+1);
+            novoUsuario.setClienteEmissor(novoCE);
+            //novoUsuario.setCliente(c.getCliente());
+            //new ServidorEnvia();
         //encerrando:
             entrada.close();
             servidor.close();

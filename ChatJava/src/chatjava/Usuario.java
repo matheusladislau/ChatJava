@@ -1,5 +1,4 @@
 package chatjava;
-import java.io.IOException;
 import java.net.Socket;
 public class Usuario{
     String ip;
@@ -8,6 +7,7 @@ public class Usuario{
     String nickName;
     Socket cliente;
     Usuario usuario;
+    ClienteEmissor clieEmiss;
 //
     public Usuario(int porta,String ip,String nickName){
         this.portaEnvia=porta;
@@ -20,17 +20,22 @@ public class Usuario{
         this.ip=this.usuario.getIp();
         this.portaEnvia=this.usuario.getPorta();
         this.portaEnvia=this.portaRecebe+1;
-        this.nickName=this.usuario.getNickName();
+        this.nickName=this.usuario.getNome();
     }
 //
+    
     public String getIp(){
         return this.ip;
     }
     public int getPorta(){
         return this.portaEnvia;
     }
-    public String getNickName(){
+    public String getNome(){
         return this.nickName;
+    }
+
+    public Socket getCliente(){
+        return cliente;
     }
 //
     public void setIp(String ip){
@@ -45,4 +50,9 @@ public class Usuario{
     public void setCliente(Socket cliente) {
         this.cliente = cliente;
     }
+
+    public void setClienteEmissor(ClienteEmissor c) {
+        this.clieEmiss = c;
+    }
+    
 }

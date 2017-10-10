@@ -16,7 +16,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }
 //
     public void enviarparaTodos(String mensagem)throws IOException{
-        
         for(int i=0; i<arrayUsuario.size(); i++){
             PrintStream saida=new PrintStream(arrayUsuario.get(i).cliente.getOutputStream());
             saida.print(mensagem);
@@ -33,7 +32,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
                     mensagem+=("Porta Entrada: "+arrayUsuario.get(i).getPorta()+
                     "  ||  Porta Saída: "+(arrayUsuario.get(i).getPorta()+1)+
                     "  ||  IP: "+arrayUsuario.get(i).getIp()+
-                    "  ||  Nome: "+arrayUsuario.get(i).getNickName()+"\n");
+                    "  ||  Nome: "+arrayUsuario.get(i).getNome()+"\n");
                 }
             }
             JOptionPane.showMessageDialog(null,mensagem);
@@ -242,7 +241,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private void btn_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarActionPerformed
         String mensagem=cmp_recebeMensagem.getText();
         cmp_recebeMensagem.setText("");
-        clienteE.teste();
         clienteE.enviarMensagem(mensagem);
     }//GEN-LAST:event_btn_enviarActionPerformed
 
@@ -262,7 +260,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_cmp_recebeNomeKeyTyped
 
     private void cmp_recebeNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmp_recebeNomeActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_cmp_recebeNomeActionPerformed
     public static void main(String args[]){
         try{
