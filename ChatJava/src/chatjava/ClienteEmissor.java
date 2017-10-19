@@ -6,13 +6,8 @@ public class ClienteEmissor{
     int porta;
     String ip;
     Socket cliente;
-//cores\\
-    final String corReset="\u001B[0m";
-    final String corVermelha="\u001B[31m";
-    final String corAzul="\u001B[34m";
 //CONSTR
     public ClienteEmissor(){
-        
     }
     public ClienteEmissor(String ip,int porta) throws IOException{
         this.ip=ip;
@@ -31,16 +26,14 @@ public class ClienteEmissor{
             PrintStream saida=new PrintStream(cliente.getOutputStream());
             saida.println(mensagem);
         }catch(IOException e){
-            System.out.println("Erro ao enviar mensagem por cliente emissor: "+e);
+            new Mensagem().mensagemErro("Erro ao enviar mensagem por cliente emissor: "+e);
         }
     }
 
-    public Socket getCliente() {
+    public Socket getCliente(){
         return cliente;
     }
-
-    public void setCliente(Socket cliente) {
+    public void setCliente(Socket cliente){
         this.cliente = cliente;
     }
-    
 }

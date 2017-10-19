@@ -7,10 +7,6 @@ public class ClienteReceptor extends Thread{
     int porta;
     String ip;
     ControleInterface controle;
-//cores
-    final String corReset="\u001B[0m";
-    final String corVermelha="\u001B[31m";
-    final String corAzul="\u001B[34m";
 //CONSTR
     public ClienteReceptor(ControleInterface controle,int porta){
         this.controle=controle;
@@ -37,18 +33,7 @@ public class ClienteReceptor extends Thread{
                 }
              }
         }catch(IOException e) {
-            mensagemErro("Erro ao iniciar servidor receptor: "+e);
+            new Mensagem().mensagemErro("Erro ao iniciar servidor receptor: "+e);
         }
     }
-    /*
-    public void enviarparaTodos(String mensagem)throws IOException{
-        for(int i=0; i<arrayUsuario.size(); i++){
-            PrintStream saida=new PrintStream(arrayUsuario.get(i).cliente.getOutputStream());
-            saida.print(mensagem);
-        }
-    }
-    */
-    public String mensagemErro(String erro){
-        return(corVermelha+(erro)+corReset);
-    } 
 }

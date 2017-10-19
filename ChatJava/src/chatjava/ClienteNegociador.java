@@ -8,25 +8,21 @@ public class ClienteNegociador extends Thread{
     String ip;
     String nome;
     ControleInterface controle;
-    
     ClienteEmissor clienteE;
-//cores
-    final String corReset="\u001B[0m";
-    final String corVermelha="\u001B[31m";
-    final String corAzul="\u001B[34m";
-//
+//CONSTR
     public ClienteNegociador(ClienteEmissor cliente,ControleInterface controle,String ip,String nome){
         this.clienteE=cliente;
         this.controle=controle;
         this.ip=ip;
         this.nome=nome;
     }
-
+//
     @Override
     public void run(){
         try{
             Socket cliente=new Socket(this.ip,this.porta);
             System.out.println("Cliente negociador: conectado ao servidor!");
+            controle.atualizarChat(new Tempo().getHoraMinutoAtual()+": você se conectou ao servidor.");
             PrintStream saida=new PrintStream(cliente.getOutputStream());
             Scanner entrada=new Scanner(cliente.getInputStream());
 
@@ -40,10 +36,7 @@ public class ClienteNegociador extends Thread{
             saida.close();
             cliente.close();
         }catch(IOException e){
-            mensagemErro("Erro ao criar socket de cliente negociador"+e);
+            new Mensagem().mensagemErro("Erro ao criar socket de cliente negociador"+e);
         }
     }
-    public String mensagemErro(String erro){
-        return(corVermelha+(erro)+corReset);
-    } 
 }

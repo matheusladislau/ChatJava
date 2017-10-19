@@ -7,8 +7,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     boolean clienteIniciado=false;
     boolean servidorIniciado=false;
     ArrayList<Usuario> arrayUsuario=new ArrayList<Usuario>();
+    ArrayList<ClienteEmissor> arrayCliente=new ArrayList<ClienteEmissor>();
     ServidorNegociador servidor;
-    
     ClienteEmissor clienteE=new ClienteEmissor();
 //
     public InterfacePrincipal(){
@@ -44,7 +44,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         if(servidorIniciado){
             JOptionPane.showMessageDialog(null,"Servidor já iniciado.");
         }else{
-            servidor=new ServidorNegociador(new ControleInterface(txt_chat,cmp_recebeMensagem),arrayUsuario);
+            servidor=new ServidorNegociador(new ControleInterface(txt_chat,cmp_recebeMensagem),arrayUsuario,arrayCliente);
             servidor.start();
             this.servidorIniciado=true;
             new ControleInterface(txt_chat,cmp_recebeMensagem).atualizarChat(

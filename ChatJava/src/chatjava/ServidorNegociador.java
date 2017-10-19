@@ -9,16 +9,15 @@ public class ServidorNegociador extends Thread{
     int porta=2000;
     ArrayList<Usuario> arrayUsuario;
     ControleInterface controle;
-
-//cores
-    public static final String corReset="\u001B[0m";
-    public static final String corVermelha="\u001B[31m";
-    public static final String corAzul="\u001B[34m";
-//
-    public ServidorNegociador(ControleInterface controle,ArrayList<Usuario> arrayUsuario){
+    ArrayList<ClienteEmissor> arrayCliente;
+//CONSTR
+    public ServidorNegociador(ControleInterface controle,ArrayList<Usuario> arrayUsuario,
+                                ArrayList<ClienteEmissor> arrayCliente){
         this.controle=controle;
         this.arrayUsuario=arrayUsuario;
+        this.arrayCliente=arrayCliente;
     }
+//
     @Override
     public void run(){
         while(true){
@@ -47,17 +46,21 @@ public class ServidorNegociador extends Thread{
             Usuario novoUsuario=new Usuario(portaLiberada,ipUsuario,nome);
         
             //DEU CERTO: enviarparaTodos(nome+"se conectou");
-            controle.atualizarChat(("["+new Tempo().getHoraMinutoAtual()+"] "+nome+" se conectou ao chat"));
-            
+            String mensagem=(nome+" se conectou ao chat");
+            //----controle.atualizarChat(());
+            new Mensagem().enviarParaTodos(arrayCliente,mensagem);
             
             saida.println(portaLiberada); //envia a portaEnvia ao usuário
             
             
         //CRIA 2 NOVAS PORTAS, mas não por ser servidor(?):
-            new ServidorReceptor(controle,arrayUsuario,portaLiberada,novoUsuario).start();
-            ClienteEmissor novoCE=new ClienteEmissor();
-            novoCE.configurar(ipUsuario,portaLiberada+1);
-            novoUsuario.setClienteEmissor(novoCE);
+            ServidorReceptor novoServidor=new ServidorReceptor(controle,arrayUsuario,arrayCliente,portaLiberada,novoUsuario);
+            novoServidor.start();
+            
+            ClienteEmissor novoCliente=new ClienteEmissor();
+            novoCliente.configurar(ipUsuario,portaLiberada+1);
+            arrayCliente.add(novoCliente);
+            //novoUsuario.setClienteEmissor(novoCE);
             //novoUsuario.setCliente(c.getCliente());
             //new ServidorEnvia();
         //encerrando:
@@ -65,23 +68,10 @@ public class ServidorNegociador extends Thread{
             servidor.close();
             cliente.close();
         }catch(IOException e){
-            mensagemErro("Erro ao criar ServidorNegociador: "+e);
+            new Mensagem().mensagemErro("Erro ao criar ServidorNegociador: "+e);
         }
     }
-    /*
-    
-    public void enviarparaTodos(String mensagem)throws IOException{
-        for(int i=0; i<arrayUsuario.size(); i++){
-            PrintStream saida=new PrintStream(arrayUsuario.get(i).cliente.getOutputStream());
-            saida.print(mensagem);
-        }
-    }
-    
-    */
     public void criarUsuario(int porta,String ip,String nome){
         this.arrayUsuario.add(new Usuario(porta,ip,nome));
     }
-    public String mensagemErro(String erro){
-        return(corVermelha+(erro)+corReset);
-    } 
 }

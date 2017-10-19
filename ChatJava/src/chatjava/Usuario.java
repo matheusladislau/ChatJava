@@ -7,7 +7,6 @@ public class Usuario{
     String nickName;
     Socket cliente;
     Usuario usuario;
-    ClienteEmissor clieEmiss;
 //
     public Usuario(int porta,String ip,String nickName){
         this.portaEnvia=porta;
@@ -50,9 +49,4 @@ public class Usuario{
     public void setCliente(Socket cliente) {
         this.cliente = cliente;
     }
-
-    public void setClienteEmissor(ClienteEmissor c) {
-        this.clieEmiss = c;
-    }
-    
 }

@@ -1,6 +1,5 @@
 package chatjava;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -10,12 +9,10 @@ public class ServidorReceptor extends Thread{ //rever metodo enviar para todos
     ControleInterface controle;
     Usuario usuario;
     ArrayList<Usuario> arrayUsuario;
-//cores
-    final String corReset="\u001B[0m";
-    final String corVermelha="\u001B[31m";
-    final String corAzul="\u001B[34m";
+    ArrayList<ClienteEmissor> arrayCliente=new ArrayList<ClienteEmissor>();
 //CONSTR
-    public ServidorReceptor(ControleInterface controle,ArrayList<Usuario> arrayUsuario,int porta,Usuario usuario){
+    public ServidorReceptor(ControleInterface controle,ArrayList<Usuario> arrayUsuario,ArrayList<ClienteEmissor> arrayCliente,int porta,Usuario usuario){
+        this.arrayCliente=arrayCliente;
         this.controle=controle;
         this.arrayUsuario=arrayUsuario;
         this.porta=porta;
@@ -34,45 +31,19 @@ public class ServidorReceptor extends Thread{ //rever metodo enviar para todos
             
             Scanner entrada=new Scanner(cliente.getInputStream());
              
-             while(true){
-                //enquanto houver mensagens
+            while(true){
+                    //enquanto houver mensagens
                     while(entrada.hasNextLine()){
-                    //remontar mensagem
-                    String mensagem="";
-                    mensagem+=usuario.getNome();
-                    mensagem+=" ["+new Tempo().getHoraMinutoAtual()+"]:  "+entrada.nextLine();
-                    //atualizar interface grafica
-                    controle.atualizarChat(mensagem);
-                    //envia paratodos outros usuários
-                    enviarparaTodos(arrayUsuario,mensagem); 
+                        //remontar mensagem
+                        String mensagem="";
+                        mensagem+=usuario.getNome()+": ";
+                        mensagem+=entrada.nextLine();
+                        //enviar
+                        new Mensagem().enviarParaTodos(arrayCliente,mensagem);
                 }
-             }
-        }catch(IOException e) {
-            mensagemErro("Erro ao iniciar servidor receptor: "+e);
-        }
-    }
-    /*
-    public void enviarparaTodos(String mensagem)throws IOException{
-        for(int i=0; i<arrayUsuario.size(); i++){
-            PrintStream saida=new PrintStream(arrayUsuario.get(i).cliente.getOutputStream());
-            saida.print(mensagem);
-        }
-    }
-*/
-    public void enviarparaTodos(ArrayList<Usuario> arrayUsuario,String mensagem)throws IOException{
-        if(arrayUsuario.size()>0){
-        /*for(int i=0; i<arrayUsuario.size(); i++){    
-            PrintStream saida=new PrintStream(arrayUsuario.get(1).getCliente().getOutputStream());
-            saida.print(mensagem);
-        }
-        */
-            for(int i=0; i<arrayUsuario.size(); i++){
-                System.out.println("nome: "+arrayUsuario.get(i).getNome());
-                arrayUsuario.get(i).clieEmiss.enviarMensagem(mensagem);
             }
+        }catch(IOException e) {
+            new Mensagem().mensagemErro("Erro ao iniciar servidor receptor: "+e);
         }
     }
-    public String mensagemErro(String erro){
-        return(corVermelha+(erro)+corReset);
-    } 
 }
