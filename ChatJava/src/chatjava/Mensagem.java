@@ -9,28 +9,11 @@ public class Mensagem{
     public void enviarParaTodos(ArrayList<ClienteEmissor> arrayCliente,String mensagem){
         mensagem=("["+new Tempo().getHoraMinutoAtual()+"] "+mensagem);
         for(int i=0; i<arrayCliente.size(); i++){
-            
             arrayCliente.get(i).enviarMensagem(mensagem);
+            //new GerenciadorBD().inserirMensagem(mensagem); funcionando
         }
-    }
-    
+    }   
     public String mensagemErro(String erro){
         return(corVermelha+(erro)+corReset);
     } 
-    
-//    public void enviarparaTodos(ArrayList<Usuario> arrayUsuario,String mensagem)throws IOException{
-//        for(int i=0; i<arrayUsuario.size(); i++){
-//            PrintStream saida=new PrintStream(arrayUsuario.get(i).cliente.getOutputStream());
-//            saida.print(mensagem);
-//        }
-//    }
-//    
-//    public void enviarMensagem(Socket cliente,String mensagem){
-//        try{
-//            PrintStream saida=new PrintStream(cliente.getOutputStream());
-//            saida.println(mensagem);
-//        }catch(IOException e){
-//            System.out.println("Erro ao enviar mensagem por cliente emissor: "+e);
-//        }
-//    }
 }
