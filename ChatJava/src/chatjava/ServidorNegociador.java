@@ -10,6 +10,7 @@ public class ServidorNegociador extends Thread{
     ArrayList<Usuario> arrayUsuario;
     ControleInterface controle;
     ArrayList<ClienteEmissor> arrayCliente;
+    boolean iniciado=false;
 //CONSTR
     public ServidorNegociador(ControleInterface controle,ArrayList<Usuario> arrayUsuario,
                                 ArrayList<ClienteEmissor> arrayCliente){
@@ -25,6 +26,14 @@ public class ServidorNegociador extends Thread{
         }
     }
     public synchronized void conectar(){
+        while(this.iniciado==true){
+            try{
+                wait();
+            }catch(InterruptedException e){
+                new Mensagem().mensagemErro(" Erro ao aguardar: "+e);
+            }
+        }
+        this.iniciado=true;
         try{
             ServerSocket servidor=new ServerSocket(porta);
             System.out.println("Servidor Negociador: Porta "+porta+" aberta!");
@@ -67,6 +76,9 @@ public class ServidorNegociador extends Thread{
             entrada.close();
             servidor.close();
             cliente.close();
+            
+            this.iniciado=false;
+            notifyAll();
         }catch(IOException e){
             new Mensagem().mensagemErro("Erro ao criar ServidorNegociador: "+e);
         }
