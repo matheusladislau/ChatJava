@@ -29,7 +29,8 @@ public class ClienteReceptor extends Thread{
                   while(entrada.hasNextLine()){
                     String mensagem="";
                     mensagem+=entrada.nextLine();
-                    controle.atualizarChat(mensagem);
+//                    controle.atualizarChat(mensagem);
+                    controle.atualizarChat(new CriptografiaRSA().decifrar(mensagem));
                 }
              }
         }catch(IOException e) {
