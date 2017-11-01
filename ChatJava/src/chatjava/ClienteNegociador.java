@@ -31,7 +31,6 @@ public class ClienteNegociador extends Thread{
         //CRIA DUAS PORTAS    
             //new ClienteEmissor
             this.clienteE.configurar(this.ip,portaLiberada);
-            System.out.println("lib "+portaLiberada);
             new ClienteReceptor(this.controle,portaLiberada+1).start();
             
             saida.close();
