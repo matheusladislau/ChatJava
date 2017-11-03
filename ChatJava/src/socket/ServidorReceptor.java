@@ -2,21 +2,18 @@ package socket;
 import chatjava.ControleInterface;
 import chatjava.Mensagem;
 import chatjava.Usuario;
-import socket.ClienteEmissor;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class ServidorReceptor extends Thread{ //rever metodo enviar para todos
-    int porta;
-    ControleInterface controle;
-    Usuario usuario;
-    ArrayList<Usuario> arrayUsuario;
-    ArrayList<ClienteEmissor> arrayCliente=new ArrayList<ClienteEmissor>();
+    private int porta;
+    private ControleInterface controle;
+    private Usuario usuario;
+    private ArrayList<Usuario> arrayUsuario;
 //CONSTR
-    public ServidorReceptor(ControleInterface controle,ArrayList<Usuario> arrayUsuario,ArrayList<ClienteEmissor> arrayCliente,int porta,Usuario usuario){
-        this.arrayCliente=arrayCliente;
+    public ServidorReceptor(ControleInterface controle,ArrayList<Usuario> arrayUsuario,int porta,Usuario usuario){
         this.controle=controle;
         this.arrayUsuario=arrayUsuario;
         this.porta=porta;
@@ -40,10 +37,9 @@ public class ServidorReceptor extends Thread{ //rever metodo enviar para todos
                     while(entrada.hasNextLine()){
                         //remontar mensagem
                         String mensagem="";
-                        mensagem+=usuario.getNome()+": ";
                         mensagem+=entrada.nextLine();
                         //enviar
-                        new Mensagem().enviarParaTodos(arrayCliente,mensagem);
+                        new Mensagem(usuario,mensagem).enviar(arrayUsuario,mensagem);
                 }
             }
         }catch(IOException e) {

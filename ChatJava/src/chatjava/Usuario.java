@@ -1,52 +1,60 @@
 package chatjava;
-import java.net.Socket;
+import socket.ClienteEmissor;
 public class Usuario{
-    String ip;
-    int portaEnvia;
-    int portaRecebe;
-    String nickName;
-    Socket cliente;
-    Usuario usuario;
+    private String ip;
+    private int portaEnvia;
+    private int portaRecebe;
+    private String nome;
+    private Usuario usuario;
+    private ClienteEmissor clienteEnviar;
 //
     public Usuario(int porta,String ip,String nickName){
         this.portaEnvia=porta;
         this.portaRecebe=porta+1;
         this.ip=ip;
-        this.nickName=nickName;
-    }
-    public Usuario(Usuario usuario){
-        this.usuario=usuario;
-        this.ip=this.usuario.getIp();
-        this.portaEnvia=this.usuario.getPorta();
-        this.portaEnvia=this.portaRecebe+1;
-        this.nickName=this.usuario.getNome();
+        this.nome=nickName;
     }
 //
-    
     public String getIp(){
-        return this.ip;
-    }
-    public int getPorta(){
-        return this.portaEnvia;
-    }
-    public String getNome(){
-        return this.nickName;
+        return ip;
     }
 
-    public Socket getCliente(){
-        return cliente;
+    public int getPortaEnvia(){
+        return portaEnvia;
     }
+
+    public int getPortaRecebe(){
+        return portaRecebe;
+    }
+
+    public String getNome(){
+        return nome;
+    }
+
+    public Usuario getUsuario(){
+        return usuario;
+    }
+
+    public ClienteEmissor getClienteEnviar(){
+        return clienteEnviar;
+    }
+   
 //
     public void setIp(String ip){
         this.ip=ip;
     }
+    
     public void setPorta(int porta){
         this.portaEnvia=porta;
     }
+    
     public void setNickName(String nickName){
-        this.nickName=nickName;
+        this.nome=nickName;
     }
-    public void setCliente(Socket cliente) {
-        this.cliente = cliente;
+
+    public void setClienteEnviar(ClienteEmissor clienteEnviar){
+        this.clienteEnviar=clienteEnviar;
     }
+    
+    
 }

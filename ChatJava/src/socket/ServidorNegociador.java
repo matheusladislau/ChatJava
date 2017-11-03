@@ -2,7 +2,6 @@ package socket;
 import chatjava.ControleInterface;
 import chatjava.Mensagem;
 import chatjava.Usuario;
-import socket.ClienteEmissor;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
@@ -10,17 +9,14 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class ServidorNegociador extends Thread{
-    int porta=2000;
-    ArrayList<Usuario> arrayUsuario;
-    ControleInterface controle;
-    ArrayList<ClienteEmissor> arrayCliente;
-    boolean iniciado=false;
+    private int porta=2000;
+    private ArrayList<Usuario> arrayUsuario;
+    private ControleInterface controle;
+    private boolean iniciado=false;
 //CONSTR
-    public ServidorNegociador(ControleInterface controle,ArrayList<Usuario> arrayUsuario,
-                                ArrayList<ClienteEmissor> arrayCliente){
+    public ServidorNegociador(ControleInterface controle,ArrayList<Usuario> arrayUsuario){
         this.controle=controle;
         this.arrayUsuario=arrayUsuario;
-        this.arrayCliente=arrayCliente;
     }
 //
     @Override
@@ -55,27 +51,23 @@ public class ServidorNegociador extends Thread{
             String nome=(entrada.nextLine());
             if(nome.equals(""))
                 nome="anônimo";
-            criarUsuario(portaLiberada,ipUsuario,nome);
             Usuario novoUsuario=new Usuario(portaLiberada,ipUsuario,nome);
-        
-            //DEU CERTO: enviarparaTodos(nome+"se conectou");
-            String mensagem=(nome+" se conectou ao chat");
-            //----controle.atualizarChat(());
-            new Mensagem().enviarParaTodos(arrayCliente,mensagem);
             
             saida.println(portaLiberada); //envia a portaEnvia ao usuário
             
             
-        //CRIA 2 NOVAS PORTAS, mas não por ser servidor(?):
-            ServidorReceptor novoServidor=new ServidorReceptor(controle,arrayUsuario,arrayCliente,portaLiberada,novoUsuario);
+        //CRIA 2 NOVAS PORTAS
+            ServidorReceptor novoServidor=new ServidorReceptor(controle,arrayUsuario,portaLiberada,novoUsuario);
             novoServidor.start();
             
             ClienteEmissor novoCliente=new ClienteEmissor();
             novoCliente.configurar(ipUsuario,portaLiberada+1);
-            arrayCliente.add(novoCliente);
-            //novoUsuario.setClienteEmissor(novoCE);
-            //novoUsuario.setCliente(c.getCliente());
-            //new ServidorEnvia();
+            novoUsuario.setClienteEnviar(novoCliente);
+            arrayUsuario.add(novoUsuario);
+
+            String mensagem=(nome+" se conectou ao chat");
+            new Mensagem("servidor",mensagem).enviar(arrayUsuario,mensagem);
+         
         //encerrando:
             entrada.close();
             servidor.close();
@@ -86,8 +78,5 @@ public class ServidorNegociador extends Thread{
         }catch(IOException e){
             new Mensagem().mensagemErro("Erro ao criar ServidorNegociador: "+e);
         }
-    }
-    public void criarUsuario(int porta,String ip,String nome){
-        this.arrayUsuario.add(new Usuario(porta,ip,nome));
     }
 }

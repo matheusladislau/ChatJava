@@ -2,8 +2,8 @@ package chatjava;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 public class ControleInterface{
-    static JTextArea txt_chat;
-    static JTextField txt_enviar;
+    JTextArea txt_chat;
+    JTextField txt_enviar;
 
     public ControleInterface(JTextArea textChat,JTextField txtEnviar){
         this.txt_chat=textChat;

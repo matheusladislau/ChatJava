@@ -10,7 +10,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     boolean clienteIniciado=false;
     boolean servidorIniciado=false;
     ArrayList<Usuario> arrayUsuario=new ArrayList<Usuario>();
-    ArrayList<ClienteEmissor> arrayCliente=new ArrayList<ClienteEmissor>();
     ServidorNegociador servidor;
     ClienteEmissor clienteE=new ClienteEmissor();
 //
@@ -18,12 +17,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         initComponents();
     }
 //
-    public void enviarparaTodos(String mensagem)throws IOException{
-        for(int i=0; i<arrayUsuario.size(); i++){
-            PrintStream saida=new PrintStream(arrayUsuario.get(i).cliente.getOutputStream());
-            saida.print(mensagem);
-        }
-    }
     public void verConexoes(){
         if(servidorIniciado){
             String mensagem="";
@@ -32,8 +25,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
             }else{
                 mensagem+=arrayUsuario.size()+" usuários conectados no momento\n";
                 for(int i=0; i<arrayUsuario.size(); i++){
-                    mensagem+=("Porta Entrada: "+arrayUsuario.get(i).getPorta()+
-                    "  ||  Porta Saída: "+(arrayUsuario.get(i).getPorta()+1)+
+                    mensagem+=("Porta Entrada: "+arrayUsuario.get(i).getPortaEnvia()+
+                    "  ||  Porta Saída: "+(arrayUsuario.get(i).getPortaRecebe()+1)+
                     "  ||  IP: "+arrayUsuario.get(i).getIp()+
                     "  ||  Nome: "+arrayUsuario.get(i).getNome()+"\n");
                 }
@@ -47,7 +40,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         if(servidorIniciado){
             JOptionPane.showMessageDialog(null,"Servidor já iniciado.");
         }else{
-            servidor=new ServidorNegociador(new ControleInterface(txt_chat,cmp_recebeMensagem),arrayUsuario,arrayCliente);
+            servidor=new ServidorNegociador(new ControleInterface(txt_chat,cmp_recebeMensagem),arrayUsuario);
             servidor.start();
             this.servidorIniciado=true;
             new ControleInterface(txt_chat,cmp_recebeMensagem).atualizarChat(
@@ -62,6 +55,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
             String nome=cmp_recebeNome.getText();
             new ClienteNegociador(clienteE,new ControleInterface(txt_chat,cmp_recebeMensagem),ip,nome).start();
             clienteIniciado=true;
+            btn_conectar.setText("             Conectado             ");
         }
     }
     @SuppressWarnings("unchecked")
@@ -69,7 +63,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         btn_iniciarServidor = new javax.swing.JButton();
-        btn_encerrarConexoes = new javax.swing.JButton();
         btn_mostrarConexões = new javax.swing.JButton();
         txt_titulo = new javax.swing.JLabel();
         cmp_recebeMensagem = new javax.swing.JTextField();
@@ -89,13 +82,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
         btn_iniciarServidor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_iniciarServidorActionPerformed(evt);
-            }
-        });
-
-        btn_encerrarConexoes.setText("Encerrar Conexões");
-        btn_encerrarConexoes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_encerrarConexoesActionPerformed(evt);
             }
         });
 
@@ -184,7 +170,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
                     .addComponent(btn_conectar)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(btn_enviar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_encerrarConexoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_mostrarConexões, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_iniciarServidor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addComponent(txt_titulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -204,23 +189,19 @@ public class InterfacePrincipal extends javax.swing.JFrame {
                             .addComponent(txt_nickname))
                         .addGap(1, 1, 1)
                         .addComponent(cmp_recebeIPServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(134, 134, 134)
+                        .addComponent(btn_iniciarServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(btn_mostrarConexões)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_enviar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14)
-                        .addComponent(cmp_recebeMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(btn_iniciarServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(5, 5, 5)
-                            .addComponent(btn_mostrarConexões)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btn_encerrarConexoes)
-                            .addGap(35, 35, 35))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_enviar))))
+                        .addComponent(cmp_recebeMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -229,13 +210,10 @@ public class InterfacePrincipal extends javax.swing.JFrame {
 
     private void btn_iniciarServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_iniciarServidorActionPerformed
         iniciarServidor();
-        cmp_recebeNome.setText("Servidor");
+        cmp_recebeNome.setText("servidor");
         btn_conectar.setText("              Conectar             ");
+        conectarServidor();
     }//GEN-LAST:event_btn_iniciarServidorActionPerformed
-
-    private void btn_encerrarConexoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_encerrarConexoesActionPerformed
-
-    }//GEN-LAST:event_btn_encerrarConexoesActionPerformed
 
     private void btn_mostrarConexõesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mostrarConexõesActionPerformed
         verConexoes();
@@ -289,7 +267,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_conectar;
-    private javax.swing.JButton btn_encerrarConexoes;
     private javax.swing.JButton btn_enviar;
     private javax.swing.JButton btn_iniciarServidor;
     private javax.swing.JButton btn_mostrarConexões;
