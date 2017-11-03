@@ -1,4 +1,5 @@
 package chatjava;
+import socket.ClienteEmissor;
 import java.util.ArrayList;
 public class Mensagem{
     //cores

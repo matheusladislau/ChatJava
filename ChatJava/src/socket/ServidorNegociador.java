@@ -1,4 +1,8 @@
-package chatjava;
+package socket;
+import chatjava.ControleInterface;
+import chatjava.Mensagem;
+import chatjava.Usuario;
+import socket.ClienteEmissor;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;

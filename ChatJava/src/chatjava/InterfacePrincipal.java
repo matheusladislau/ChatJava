@@ -1,4 +1,7 @@
 package chatjava;
+import socket.ServidorNegociador;
+import socket.ClienteEmissor;
+import socket.ClienteNegociador;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
