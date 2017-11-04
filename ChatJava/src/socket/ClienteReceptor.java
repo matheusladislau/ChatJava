@@ -7,9 +7,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 public class ClienteReceptor extends Thread{
-    int porta;
-    String ip;
-    ControleInterface controle;
+    private int porta;
+    private String ip;
+    private ControleInterface controle;
 //CONSTR
     public ClienteReceptor(ControleInterface controle,int porta){
         this.controle=controle;

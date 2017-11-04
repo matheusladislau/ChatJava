@@ -7,11 +7,11 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 public class ClienteNegociador extends Thread{
-    int porta=2000;
-    String ip;
-    String nome;
-    ControleInterface controle;
-    ClienteEmissor clienteE;
+    private int porta=2000;
+    private String ip;
+    private String nome;
+    private ControleInterface controle;
+    private ClienteEmissor clienteE;
 //CONSTR
     public ClienteNegociador(ClienteEmissor cliente,ControleInterface controle,String ip,String nome){
         this.clienteE=cliente;

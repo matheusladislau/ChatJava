@@ -31,15 +31,15 @@ public class Mensagem{
         this.mensagem=mensagem;
         this.mensagem=removerEspacosInicio();
         verificarMensagem();
+        salvar();
     }   
     public String mensagemErro(String erro){
         return(corVermelha+(erro)+corReset);
     } 
     
     public void verificarMensagem(){
-        //verificar se privada
         this.destinatario="todos";
-        if(this.mensagem.length()>0)//se mensagem existe
+        if(this.mensagem.length()>0)//se há conteúdo em mensagem
             if(this.mensagem.substring(0,1).equals("@")){//se o primeiro caracter é @
                 this.destinatario=pegarDestinatario(this.mensagem);
             }
@@ -69,9 +69,9 @@ public class Mensagem{
     }
     
     public void enviarParaTodos(){
-        this.mensagem=("["+new Tempo().getHoraMinutoAtual()+"] "+remetente+": "+mensagem);
+        String mensagemEnviar=("["+new Tempo().getHoraMinutoAtual()+"] "+remetente+": "+mensagem);
         for(int i=0; i<arrayUsuario.size(); i++){
-            arrayUsuario.get(i).getClienteEnviar().enviarMensagem(new CriptografiaRSA().cifrar(mensagem));//criptografia
+            arrayUsuario.get(i).getClienteEnviar().enviarMensagem(new CriptografiaRSA().cifrar(mensagemEnviar));//criptografia
         }
     }
     
@@ -84,5 +84,8 @@ public class Mensagem{
             }
         }
         return false;
+    }
+    public void salvar(){
+        new GerenciadorBD().insertMensagem(new Tempo().getData(),new Tempo().getHoraCompletaAtual(),remetente,destinatario,mensagem);
     }
 }
