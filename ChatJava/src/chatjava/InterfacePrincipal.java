@@ -57,6 +57,8 @@ public class InterfacePrincipal extends javax.swing.JFrame {
             clienteIniciado=true;
             btn_conectar.setText("             Conectado             ");
         }
+        cmp_recebeIPServidor.setEditable(false);
+        cmp_recebeNome.setEditable(false);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -227,8 +229,6 @@ public class InterfacePrincipal extends javax.swing.JFrame {
 
     private void btn_conectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_conectarActionPerformed
         conectarServidor();
-        cmp_recebeIPServidor.setEditable(false);
-        cmp_recebeNome.setEditable(false);
     }//GEN-LAST:event_btn_conectarActionPerformed
 
     private void cmp_recebeIPServidorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmp_recebeIPServidorMouseClicked
