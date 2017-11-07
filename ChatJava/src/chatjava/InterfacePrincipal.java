@@ -14,6 +14,7 @@ public class InterfacePrincipal extends javax.swing.JFrame {
     ClienteEmissor clienteE=new ClienteEmissor();
 //
     public InterfacePrincipal(){
+//        new GerenciadorBD().criarBD();
         initComponents();
     }
 //
