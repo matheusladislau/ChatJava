@@ -190,6 +190,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="cmp_recebeNome">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="An&#xf4;nimo"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmp_recebeNomeActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cmp_recebeNomeKeyTyped"/>
