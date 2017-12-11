@@ -3,22 +3,44 @@ import java.sql.DriverManager;
 import com.mysql.jdbc.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-public class GerenciadorBD{
-    
+public class GerenciadorBD extends Thread{ 
     private String banco="CHATJAVA";
+    private boolean gravando=false;
     
-    public void insertMensagem(String data,String hora,String nomeRemetente,String nomeDestinatario,String mensagem){
-        String comando=("INSERT INTO Mensagem VALUES ("+(maxIdMensagem()+1)+",'"+data+" "+hora+"','"+nomeRemetente+"','"+nomeDestinatario+"','"+mensagem+"');");
-        System.out.println(comando);
-        try{
-            Connection connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/"+banco,"root","");
-            PreparedStatement stm=(PreparedStatement)connection.prepareStatement(comando);            
-            stm.execute();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+    public synchronized void insertMensagem(String data,String hora,String nomeRemetente,String nomeDestinatario,String mensagem){
+        if(gravando){
+            try{
+                wait();            
+            }catch(InterruptedException e){
+                System.out.println(new Mensagem().mensagemErro(""+e));
+            }
+        }else{
+            this.gravando=true;
+            String comando=("INSERT INTO Mensagem VALUES ("+(maxIdMensagem()+1)+",'"+data+" "+hora+"','"+nomeRemetente+"','"+nomeDestinatario+"','"+mensagem+"');");
+            System.out.println(comando);
+            try{
+                Connection connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/"+banco,"root","");
+                PreparedStatement stm=(PreparedStatement)connection.prepareStatement(comando);            
+                stm.execute();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            this.gravando=false;
+            notifyAll();
+        }   
     }
+//    
+//    public void insertMensagem(String data,String hora,String nomeRemetente,String nomeDestinatario,String mensagem){
+//        String comando=("INSERT INTO Mensagem VALUES ("+(maxIdMensagem()+1)+",'"+data+" "+hora+"','"+nomeRemetente+"','"+nomeDestinatario+"','"+mensagem+"');");
+//        System.out.println(comando);
+//        try{
+//            Connection connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/"+banco,"root","");
+//            PreparedStatement stm=(PreparedStatement)connection.prepareStatement(comando);            
+//            stm.execute();
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//    }
     
     public int maxIdMensagem(){
         int resultado=0;
